@@ -6,7 +6,6 @@
 //#include "../binary/String.h"
 
 #include <fstream>
-#include <future>
 namespace Microsoft
 {
 	namespace VisualStudio
@@ -80,7 +79,17 @@ namespace Microsoft
 
 				TEST_METHOD( testAssignments )
 				{
-					const char expected[9] = "testtest";
+					const char expected[9] = "test";
+
+					CString s0 = "test";
+					CString s1 = s0;
+
+					Assert::AreEqual( s1.raw(), expected );
+				}
+
+				TEST_METHOD( testAppend )
+				{
+					const char expected[ 9 ] = "testtest";
 
 					CString s0 = "test";
 					CString s1 = s0;
@@ -90,6 +99,14 @@ namespace Microsoft
 
 					s1 += " med+=";
 					Assert::AreEqual( s1.raw(), "test med+=" );
+				}
+
+				TEST_METHOD( testLength )
+				{
+					CString s0 = "test";
+					uint32_t expected = 4;
+
+					Assert::AreEqual( expected, s0.length() );
 				}
 			};
 			

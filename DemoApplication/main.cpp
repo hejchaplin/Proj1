@@ -32,34 +32,20 @@ void demo( FileStatus status, const CString & file )
 	}
 }
 
-
 int main()
 {
-
-
-
-
-	Packer p;
-	p.submit( ResourceType::Mesh, "s.txt" );
-
-
-
-
-
-
-
 	if ( 0 )
 	{
 
-#define THREAD 0
+#define DEMO_ON_THREAD 1
 
 		Observer obs( 5000 );
 		CArray<CString> files;
-		files.push( "C:/Users/megadodd/source/repos/binary/binary/assets/1.shader" );
-		files.push( "C:/Users/megadodd/source/repos/binary/binary/assets/1.texture" );
+		files.push( "C:/Users/megadodd/source/GitHub/Project1/Assets/Pictures/Kappa.png" );
+		files.push( "C:/Users/megadodd/source/GitHub/Project1/Assets/Text/readme.txt" );
 		InfoCode submit_error = obs.submitFiles( files );
 
-#if THREAD == 0
+#if DEMO_ON_THREAD == 0
 		if ( !CH_RESOURCE_FAILED( submit_error ) )
 		{
 			Timer timer;
@@ -91,26 +77,31 @@ int main()
 
 #endif
 	}
-	//testing resource packer v.1
 
 	BinaryPackage package;
+	std::string shader = "C:/Users/megadodd/source/GitHub/Project1/Assets/UPackages/unpacked_test/1.shader";
+	std::string texture = "C:/Users/megadodd/source/GitHub/Project1/Assets/UPackages/unpacked_test/1.texture";
+	std::string outdir = "C:/Users/megadodd/source/GitHub/Project1/Assets/UPackages/DemoPacked";
 	if ( 0 )
 	{
-		auto info = package.submit( ResourceType::Shader, "C:/Users/megadodd/source/repos/binary/binary/test/hemligt.txt" );
-		info = package.submit( ResourceType::Texture, "C:/Users/megadodd/source/repos/binary/binary/test/Kappa.png" );
+		auto info = package.submit( ResourceType::Shader, shader );
+		info = package.submit( ResourceType::Texture, texture );
 		if ( CH_RESOURCE_FAILED( info ) )
 		{
 			int errorCode = CH_ERRORCODE( info );
+			return 0;
 		}
-		info = package.pack( "Hemligt", 1 );
+		info = package.pack( outdir, 1 );
 		if ( CH_RESOURCE_FAILED( info ) )
 		{
 			int errorCode = CH_ERRORCODE( info );
+			return 0;
 		}
 	}
 	if ( 1 )
 	{
-		auto info = package.unpack( "Hemligt.chpkg", "C:/Users/megadodd/source/repos/binary/binary/test" );
+		std::string file = "C:/Users/megadodd/source/GitHub/Project1/Assets/UPackages/DemoPacked.chpkg";
+		auto info = package.unpack( file, "C:/Users/megadodd/source/GitHub/Project1/Assets/UPackages/unpacked_test" );
 		if ( CH_RESOURCE_FAILED( info ) )
 		{
 			int errorCode = CH_ERRORCODE( info );
