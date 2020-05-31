@@ -18,6 +18,7 @@ namespace Microsoft
 				return errorCode == InfoCode::Path_NoExist ? L"F" : L"R";
 			};
 
+
 			/*template<>
 			static std::wstring ToString( const ResourceType & errorCode )
 			{
@@ -226,6 +227,39 @@ namespace Microsoft
 			TEST_CLASS( ObserverTests )
 			{
 			public:
+				TEST_METHOD( testNoticeFileChangeTick )
+				{
+					Observer obs( 10 );
+					CArray<CString> files;
+					files.push( "C:/Users/megadodd/source/GitHub/Project1/Assets/Text/readme.txt" );
+					InfoCode submit_error = obs.submitFiles( files );
+
+					for ( int i = 0; i < 25; ++i )
+					{
+						obs.startTickSpecified( []( FileStatus status, const CString & file )
+							{
+								if ( status == FileStatus::Modified )
+								{
+									CString expected = "C:/Users/megadodd/source/GitHub/Project1/Assets/Text/readme.txt";
+									bool flag = false;
+									if ( expected == file )
+									{
+										flag = true;
+									}
+									Assert::IsTrue( flag );
+								}
+							},
+							0.33f );
+
+						if ( i == 1 )
+						{
+							std::ofstream f( "C:/Users/megadodd/source/GitHub/Project1/Assets/Text/readme.txt" );
+							f << "modify";
+							f.close();
+						}
+					}
+				}
+
 				TEST_METHOD( testSubmitSuccess )
 				{
 					Observer observer( 10 );
@@ -318,7 +352,8 @@ namespace Microsoft
 					Assert::AreEqual( expected, actual );
 				}
 			};
-
 		}
+
+
 	}
 }

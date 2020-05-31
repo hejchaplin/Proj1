@@ -65,6 +65,11 @@ public:
 		return *this;
 	}
 
+	bool operator == ( const CString & a ) const
+	{
+		return  strcmp( m_Str, a.raw() ) == 0;
+	}
+
 	CString & operator = ( const char * source )
 	{
 		if ( m_Str != source )
