@@ -76,10 +76,11 @@ InfoCode BinaryPackage::remove( ResourceType type, uint32_t handle )
 		{
 			delete resource;
 			m_Resources[ i ] = nullptr;
+			return InfoCode::Success;
 		}
 	}
 
-	return InfoCode::Success;
+	return InfoCode::Zero_Data;
 }
 
 InfoCode BinaryPackage::pack( const std::string & filename, uint32_t headerVersion )

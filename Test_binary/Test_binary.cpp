@@ -154,6 +154,18 @@ namespace Microsoft
 					Assert::AreEqual( expected, info );
 				}
 
+				TEST_METHOD( testRemoveFailedNoType )
+				{
+					BinaryPackage package;
+					package.submit( ResourceType::Shader, "C:/Users/megadodd/source/repos/binary/binary/assets/1.shader" );
+					package.submit( ResourceType::Shader, "C:/Users/megadodd/source/repos/binary/binary/assets/1.shader" );
+					package.submit( ResourceType::Shader, "C:/Users/megadodd/source/repos/binary/binary/assets/1.shader" );
+					package.submit( ResourceType::Shader, "C:/Users/megadodd/source/repos/binary/binary/assets/1.shader" );
+					InfoCode info = package.remove( ResourceType::Mesh, 0 );
+					InfoCode expected = InfoCode::Zero_Data;
+					Assert::AreEqual( expected, info );
+				}
+
 				TEST_METHOD( testRemoveSuccess )
 				{
 					BinaryPackage package;
